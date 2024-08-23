@@ -8,12 +8,12 @@ from sklearn.preprocessing import MinMaxScaler
 import os
 from matplotlib.animation import FuncAnimation
 
-data = pd.read_csv('C:/big18/dl-dev/project/000660.csv')
+data = pd.read_csv('C:/big18/dl-dev/dl-dev/project/000660.csv')
 data_000660 = data[['종가','거래량']]
 data_000660.rename(columns={'종가':'Close',
                      '거래량':'Volume'},
             inplace=True)
-data_000660 = data_000660[:251]
+data_000660 = data_000660.iloc[int(len(data_000660)/2):,:]
 
 def download_stock_data(ticker, start_date, end_date):
     df = yf.download(ticker, start=start_date, end=end_date)
@@ -187,7 +187,7 @@ def create_animation(image_dir, output_file, fps=2):
 
 # 데이터 정규화
 scaler = MinMaxScaler(feature_range=(0, 1))
-data = scaler.fit_transform(data_000660.values)
+data = scaler.fit_transform(data_000660)
 
 # 시퀀스 데이터 생성
 seq_length = 5
@@ -199,6 +199,7 @@ X_train, X_test = X[:split_index], X[split_index:]
 y_train, y_test = y[:split_index], y[split_index:]
 
 # TensorFlow 텐서로 변환
+
 X_train = tf.convert_to_tensor(X_train, dtype=tf.float32)
 X_test = tf.convert_to_tensor(X_test, dtype=tf.float32)
 y_train = tf.convert_to_tensor(y_train, dtype=tf.float32)
