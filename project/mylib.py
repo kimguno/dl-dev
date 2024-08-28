@@ -1,6 +1,14 @@
 import pandas as pd
 
+def fdata():
+    data=pd.read_csv('C:/Users/F06/Downloads/fdata.csv')
+    return data
 
+def adlldata():
+    data = fdata()
+    data = dataRenameVol(data)
+    return data
+    
 
 def dataLoad(code):
     data = pd.read_csv('C:/Users/F06/Downloads/fdata.csv')
